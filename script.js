@@ -61,7 +61,9 @@ function extractTodayMaxInfo(payload) {
   const temperature = payload.temperature;
 
   if (!Array.isArray(dayOfWeek) || !Array.isArray(temperature)) {
-    throw new Error("Weather API payload missing dayOfWeek or temperature arrays.");
+    throw new Error(
+      "Weather API payload missing dayOfWeek or temperature arrays."
+    );
   }
 
   let differentDays = 0;
@@ -297,7 +299,7 @@ function validateEnv(env) {
 }
 
 async function main() {
-  validateEnv(process.env);
+  //validateEnv(process.env);
 
   if (!isWithinParisWindow()) {
     console.log("Outside run window (08:00-17:59 Europe/Paris). Exiting.");
