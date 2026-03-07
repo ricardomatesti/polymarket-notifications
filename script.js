@@ -28,7 +28,7 @@ function getParisHour(now = new Date()) {
 
 function isWithinParisWindow(now = new Date()) {
   const hour = getParisHour(now);
-  return hour >= 8 && hour <= 17;
+  return hour >= 8 && hour <= 22;
 }
 
 function getRegions() {
