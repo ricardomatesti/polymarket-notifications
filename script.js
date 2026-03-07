@@ -33,8 +33,8 @@ function isWithinParisWindow(now = new Date()) {
 
 function getRegions() {
   return [
-    { id: "PARIS", name: "PARIS", geocode: "49.017,2.594" },
-    { id: "LONDON", name: "LONDON", geocode: "49.017,2.594" },
+    { id: "PARIS", name: "PARIS", geocode: "49.017%2C2.594" },
+    { id: "LONDON", name: "LONDON", geocode: "51.51%2C0.028" },
   ];
 }
 
@@ -164,7 +164,7 @@ const WEATHER_URL = "https://api.weather.com/v3/wx/forecast/hourly/2day";
 
 async function fetchRegionForecast(geocode) {
   const params = new URLSearchParams({
-    apiKey: process.env.WEATHER_API_KEY,
+    apiKey: "e1f10a1e78da46f5b10a1e78da96f525",
     geocode,
     units: "m",
     language: "en-US",
