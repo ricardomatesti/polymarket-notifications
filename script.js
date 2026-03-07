@@ -31,29 +31,11 @@ function isWithinParisWindow(now = new Date()) {
   return hour >= 8 && hour <= 17;
 }
 
-function parseRegions(regionsJson) {
-  let parsed;
-
-  try {
-    parsed = JSON.parse(regionsJson);
-  } catch {
-    throw new Error("REGIONS_JSON must be valid JSON.");
-  }
-
-  if (!Array.isArray(parsed) || parsed.length === 0) {
-    throw new Error("REGIONS_JSON must be a non-empty array.");
-  }
-
-  for (const region of parsed) {
-    if (!region || typeof region !== "object") {
-      throw new Error("Each region must be an object.");
-    }
-    if (!region.id || !region.geocode) {
-      throw new Error("Each region must include id and geocode.");
-    }
-  }
-
-  return parsed;
+function getRegions() {
+  return [
+    { id: "PARIS", name: "PARIS", geocode: "49.017,2.594" },
+    { id: "LONDON", name: "LONDON", geocode: "49.017,2.594" },
+  ];
 }
 
 function extractTodayMaxInfo(payload) {
@@ -306,7 +288,7 @@ async function main() {
     return;
   }
 
-  const regions = parseRegions(process.env.REGIONS_JSON);
+  const regions = getRegions();
 
   const previousState = await loadState();
   const nextState = { ...previousState };
