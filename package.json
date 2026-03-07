@@ -1,0 +1,16 @@
+{
+  "name": "polymarket-notifications",
+  "version": "1.0.0",
+  "description": "Weather max temperature change alerts for Polymarket monitoring",
+  "main": "script.js",
+  "scripts": {
+    "start": "node script.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "googleapis": "^140.0.1"
+  }
+}

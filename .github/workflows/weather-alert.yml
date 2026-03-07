@@ -1,0 +1,63 @@
+name: Weather Max Alerts
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: weather-alert-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  weather-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Compute Paris date key
+        id: paris
+        run: echo "today=$(TZ=Europe/Paris date +%F)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore weather state cache
+        id: cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/weather_state.json
+          key: weather-state-${{ steps.paris.outputs.today }}-${{ github.run_id }}-restore
+          restore-keys: |
+            weather-state-${{ steps.paris.outputs.today }}-
+
+      - name: Ensure cache directory exists
+        run: mkdir -p .cache
+
+      - name: Run weather script
+        env:
+          WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+          REGIONS_JSON: ${{ secrets.REGIONS_JSON }}
+          GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_CLIENT_SECRET: ${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
+          ALERT_RECIPIENT: ${{ secrets.ALERT_RECIPIENT }}
+        run: node script.js
+
+      - name: Save weather state cache
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .cache/weather_state.json
+          key: weather-state-${{ steps.paris.outputs.today }}-${{ github.run_id }}-${{ github.run_attempt }}
