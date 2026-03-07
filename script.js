@@ -33,8 +33,8 @@ function isWithinParisWindow(now = new Date()) {
 
 function getRegions() {
   return [
-    { id: "PARIS", name: "PARIS", geocode: "49.017%2C2.594" },
-    { id: "LONDON", name: "LONDON", geocode: "51.51%2C0.028" },
+    { id: "PARIS", name: "PARIS", geocode: "49.017,2.594" },
+    { id: "LONDON", name: "LONDON", geocode: "51.51,0.028" },
   ];
 }
 
@@ -192,17 +192,17 @@ function formatEmailBody({ updates, failures }) {
     for (const update of updates) {
       if (update.reason === "first_run_of_day") {
         lines.push(
-          `  First search MAX: ${update.max} FREQ: ${update.freq} for ${update.region} on ${update.day}`
+          `  First search MAX: ${update.max}º FREQ: ${update.freq} for ${update.region} on ${update.day}`
         );
       }
       if (update.reason === "new_max") {
         lines.push(
-          `  NEW MAX: ${update.max} with freq: ${update.freq} for ${update.region} on ${update.day}`
+          `  NEW MAX: ${update.max}º with freq: ${update.freq} for ${update.region} on ${update.day}`
         );
       }
       if (update.reason === "change_in_freq") {
         lines.push(
-          `  CHANGE IN FREQ: ${update.freq} with max: ${update.max} for ${update.region} on ${update.day}`
+          `  CHANGE IN FREQ: ${update.freq} with max: ${update.max}º for ${update.region} on ${update.day}`
         );
       }
     }
@@ -296,7 +296,6 @@ async function main() {
   const updates = [];
   const failures = [];
   let successCount = 0;
-
   for (const region of regions) {
     try {
       const payload = await fetchRegionForecast(region.geocode);
@@ -375,7 +374,7 @@ module.exports = {
   STATE_FILE_PATH,
   getParisDate,
   isWithinParisWindow,
-  parseRegions,
+  getRegions,
   extractTodayMaxInfo,
   diffRegionState,
   formatEmailBody,
