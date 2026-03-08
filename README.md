@@ -4,11 +4,10 @@ Node.js bot that checks Weather.com hourly forecast for configured regions and e
 
 ## What it does
 
-- Runs on GitHub Actions every 5 minutes (GitHub minimum schedule cadence).
-- Only executes logic during `08:00-17:59` in `Europe/Paris` timezone.
+- Runs on GitHub Actions every 5 minutes.
+- Only executes logic during `08:00-22:00` in `Europe/Paris` timezone.
 - For each region in `REGIONS_JSON`:
   - Fetches `v3/wx/forecast/hourly/2day`
-  - Filters entries for **today** (`Europe/Paris` date)
   - Computes:
     - `maxTemp`
     - `maxTempCount`
@@ -21,8 +20,6 @@ Node.js bot that checks Weather.com hourly forecast for configured regions and e
 
 Set these as GitHub repository secrets:
 
-- `WEATHER_API_KEY`
-- `REGIONS_JSON`
 - `GMAIL_CLIENT_ID`
 - `GMAIL_CLIENT_SECRET`
 - `GMAIL_REFRESH_TOKEN`
@@ -58,3 +55,4 @@ node script.js
 
 - If all regions fail in a run, the script exits with non-zero status.
 - If some regions fail, successful regions are still processed and state is saved.
+
