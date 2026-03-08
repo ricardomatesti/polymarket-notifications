@@ -317,6 +317,8 @@ async function main() {
             day: difference.day,
             reason: difference.reason,
             freq: difference.freq,
+            oldFreq: difference.oldFreq,
+            oldMax: difference.oldMax,
             max: difference.max,
           });
         }
