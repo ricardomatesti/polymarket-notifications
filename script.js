@@ -113,6 +113,7 @@ function diffRegionState(previous, current) {
         reason: "new_max",
         day,
         max: info.maxTemp,
+        oldMax: previousInfo.maxTemp,
         freq: info.maxTempCount,
       });
       return;
@@ -124,6 +125,7 @@ function diffRegionState(previous, current) {
         reason: "change_in_freq",
         day,
         max: info.maxTemp,
+        oldFreq: previousInfo.maxTempCount,
         freq: info.maxTempCount,
       });
       return;
@@ -197,12 +199,12 @@ function formatEmailBody({ updates, failures }) {
       }
       if (update.reason === "new_max") {
         lines.push(
-          `  NEW MAX: ${update.max}º with freq: ${update.freq} for ${update.region} on ${update.day}`
+          `  NEW MAX: ${update.oldMax}->${update.max}º with freq: ${update.freq} for ${update.region} on ${update.day}`
         );
       }
       if (update.reason === "change_in_freq") {
         lines.push(
-          `  CHANGE IN FREQ: ${update.freq} with max: ${update.max}º for ${update.region} on ${update.day}`
+          `  CHANGE IN FREQ: ${update.oldFreq}->${update.freq} with max: ${update.max}º for ${update.region} on ${update.day}`
         );
       }
     }
