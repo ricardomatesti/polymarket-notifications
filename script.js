@@ -7,6 +7,7 @@ const STATE_FILE_PATH = path.join(
   ".cache",
   "weather_state.json"
 );
+const NUM_OF_DAYS_TO_PROCESS = 1;
 
 function getParisDate(now = new Date()) {
   return new Intl.DateTimeFormat("en-CA", {
@@ -58,7 +59,7 @@ function extractTodayMaxInfo(payload) {
       currentDay = dayOfWeek[i];
     }
 
-    if (differentDays > 2) break;
+    if (differentDays > NUM_OF_DAYS_TO_PROCESS) break;
 
     if (typeof temperature[i] !== "number" || Number.isNaN(temperature[i])) {
       continue;
