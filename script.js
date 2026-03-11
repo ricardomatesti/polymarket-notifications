@@ -34,8 +34,8 @@ function isWithinParisWindow(now = new Date()) {
 
 function getRegions() {
   return [
-    { id: "PARIS", name: "PARIS", geocode: "49.017,2.594" },
-    { id: "LONDON", name: "LONDON", geocode: "51.51,0.028" },
+    { id: "PARIS", name: "PARIS", geocode: "49.017,2.594", icaoCode: "LFPG" },
+    { id: "LONDON", name: "LONDON", geocode: "51.51,0.028", icaoCode: "EGLC" },
   ];
 }
 
@@ -165,13 +165,13 @@ async function saveState(state) {
 
 const showDecimals = true;
 const WEATHER_URL = showDecimals
-  ? "https://api.weather.com/v3/wx/forecast/hourly/1day/enterprise"
+  ? "https://api.weather.com/v3/wx/forecast/hourly/12hour/enterprise"
   : "https://api.weather.com/v3/wx/forecast/hourly/2day";
 
-async function fetchRegionForecast(geocode) {
+async function fetchRegionForecast(icaoCode) {
   const params = new URLSearchParams({
     apiKey: "e1f10a1e78da46f5b10a1e78da96f525",
-    geocode,
+    icaoCode,
     units: "m",
     language: "en-US",
     format: "json",
@@ -304,7 +304,7 @@ async function main() {
   let successCount = 0;
   for (const region of regions) {
     try {
-      const payload = await fetchRegionForecast(region.geocode);
+      const payload = await fetchRegionForecast(region.icaoCode);
       const current = extractTodayMaxInfo(payload);
       const previous = previousState[region.id]?.days;
       const diff = diffRegionState(previous, current);
