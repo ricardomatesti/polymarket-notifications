@@ -165,7 +165,7 @@ async function saveState(state) {
 
 const showDecimals = true;
 const WEATHER_URL = showDecimals
-  ? "https://api.weather.com/v3/wx/forecast/hourly/12hour/enterprise"
+  ? "https://api.weather.com/v3/wx/forecast/hourly/1day/enterprise"
   : "https://api.weather.com/v3/wx/forecast/hourly/2day";
 
 async function fetchRegionForecast(icaoCode) {
